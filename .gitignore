@@ -1,0 +1,13 @@
+*.netbeans_automatic_build
+*.class
+target/
+.idea/
+*.key
+server.conf
+*.lic
+\.idea/
+users\.db
+*.iml
+*.key
+callrecords\.db
+*.db
