@@ -8,13 +8,11 @@ addons:
   sonarcloud:
     branches:
       - master
-      - Working_Version
-      - sprint4
     organization: "jebk"
     token:
       secure: "ixbZVr7IxaD9tPPxXKINHHwHXXZDFHTHRIhnj/FiLL9G2UuRx6SVtd3Bg9OVOl8u3h1nrx5KIKjcdw19mGm18b7Fj0WSnS7yPpaOgfATJrviU8LQMRv6iGxLGRVFCHc5jj3A8MAgTu1Xb1vgjk6vpto2U8gpYQxJ3Gt1k4Y+HsjbpArZApBXGcp/xKUxgldIDYDQaKp8ncALY3/KAk2Ga9PbvNASq9y4BLmFYHfmhWyEaW/0V13JZGVCDvalgXeqixXFaAPrP79wk3u1tAshExj2sgJ8XxkXCbwGXGEY4R+0DB49urDonK6UvQ4M5HBN4AMASsx74UVyHy/qdw+WOTcNmnEKFy+0gGfP6DS0nv9ZtTjtGgYIaZq+8jKHMu3LNjYj8DPaIyChnAPjdkN5D5Mny/PBi17V8yOwmU6sK2ACO/aVGhxacPLbemEuDtYsvzADDJS5uep6vRJzNTThg2JgLlJW56a5eFTO6B/0vtyuZXYYafjzhsRLXhhWBio5knqYVreKx2t60eqYwpL+K4BB+cDjPq9TO+WCJ19hRcvJxxf+RNd7qnfSsk1YJvbv5F/Yi1cKrmE9WCr/oDx5+9OfbO6Yyb9eS7cQTAKTG/5FLeyGuHt6QN8ulJ+uuxRpXL8nSPQG+iOrARsZF41uYHuw/qJmqt89KKpLbNhK1lw="
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - mvn clean compile package sonar:sonar
 cache:
   directories:
     - '$HOME/.sonar/cache'
@@ -29,12 +27,4 @@ deploy:
     tags: true
     branches:
       - master
-notifications:
-  hipchat:
-    rooms:
-      secure: spw7ITLBhMr+ExweijV3WKF9ZdQhFeZe0CSIL/NPsI9bjR01Fn18g/wGkDg4HmFWppNB28TFyYLpccxkMciqVt0jOfuJCe6TDSLSLYzYlTekpjSdtUMcb5n/QPHN/ywtUGWTMiusidRbxRInk2+MgSUZw3n0UrA23aDaYlStiaje1uLXB0b7gFHjjXMPBIi9AvJrrfG7R4A+gjFIAin7tQFVj9evx8aClp34QgBn7uDB7Zwu7Edo9mfQC479NPHNs4wAe96hhuhUG/dbFQYbH74VCGcJA/9kblZNIhN6FHE3Y2KD9CdfoTq6abhyy04OTFHsi+qSsJhqPAG54VkYVOFW7PaOdVPbYEyOqY7hBeSGjyYe1ze/bmJF7JskhGRp3MySWKCUZRljAspz9JAK8NsmgktDMx6t85NdDIBtMerFZBr+sTWjRFePxIMTu1+s4bvqFeE1fuxF9EjVx4U5Bnx9U7c1acWqHYY5R4gj1B8QNNuivajWyMW5po8cCHmCb9jsDlAbMj5zB5IvzcYsiyY/ZViProfvSF7NbXa3I7fZu8pUbVCkzEwbWy0CDNFDPBTWG/nad3Gcovzv6sSfLbTFnicflAWYBOYAM5m/EtVt5BFl9Jp2KWaNLWgNIScjv7QzyFVZhBlfZcMgrVLvAK/4X8jrCep3LjccaSDccGE=
-    template:
-      
-      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} For code analysis Sonar: https://sonarcloud.io/organizations/jebk/projects'
-    
-    notify: true
+
