@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server.pluginlicensecheck;
+package citos.server.pluginlicensecheck;
 
 public class PluginLicenseState {
     private int state;

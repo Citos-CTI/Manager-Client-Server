@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server.packet;
+package citos.server.packet;
 
 import java.util.Objects;
 

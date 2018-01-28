@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server.database;
+package citos.server.database;
 
-import lsctic.communication.server.packet.CdrPacket;
+import citos.server.packet.CdrPacket;
 
 import java.io.File;
 import java.sql.*;

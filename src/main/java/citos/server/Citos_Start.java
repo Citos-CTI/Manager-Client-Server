@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server;
+package citos.server;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -18,14 +18,14 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LSCTIC_User_Server
+public class Citos_Start
 {
     private int port =12345;
     public static void main(String[] args)
     {
-        new LSCTIC_User_Server();
+        new Citos_Start();
     }
-    public LSCTIC_User_Server()
+    public Citos_Start()
     {
 
         try {
@@ -89,14 +89,14 @@ public class LSCTIC_User_Server
                 
                 b.bind(port).sync().channel().closeFuture().sync();
             } catch (InterruptedException ex) {
-                Logger.getLogger(LSCTIC_User_Server.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Citos_Start.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 bossGroup.shutdownGracefully();
                 workerGroup.shutdownGracefully();
             }
             Logger.getLogger(getClass().getName()).info("STARTED");
         } catch (CertificateException | SSLException ex) {
-            Logger.getLogger(LSCTIC_User_Server.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Citos_Start.class.getName()).log(Level.SEVERE, null, ex);
         }
           
     }

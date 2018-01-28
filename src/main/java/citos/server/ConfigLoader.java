@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server;
+package citos.server;
 
 import java.io.IOException;
 import java.nio.file.Files;

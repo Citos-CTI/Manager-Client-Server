@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server;
+package citos.server;
 
 import com.google.common.eventbus.EventBus;
-import lsctic.communication.server.busevents.NotifyExtensionAbosEvent;
-import lsctic.communication.server.busevents.NotifyNewCdrEvent;
-import lsctic.communication.server.packet.CdrPacket;
+import citos.server.busevents.NotifyExtensionAbosEvent;
+import citos.server.busevents.NotifyNewCdrEvent;
+import citos.server.packet.CdrPacket;
 
 import javax.swing.*;
 import java.awt.*;

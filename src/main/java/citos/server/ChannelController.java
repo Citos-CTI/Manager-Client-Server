@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server;
+package citos.server;
 
+import citos.server.packet.CdrPacket;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import io.netty.channel.Channel;
-import lsctic.communication.server.busevents.NotifyExtensionAbosEvent;
-import lsctic.communication.server.busevents.NotifyNewCdrEvent;
-import lsctic.communication.server.database.SqlLiteCallRecordDatabase;
-import lsctic.communication.server.packet.CdrPacket;
-import lsctic.communication.server.pluginlicensecheck.ClientPluginChecker;
-import lsctic.communication.server.pluginlicensecheck.PluginLicenseState;
+import citos.server.busevents.NotifyExtensionAbosEvent;
+import citos.server.busevents.NotifyNewCdrEvent;
+import citos.server.database.SqlLiteCallRecordDatabase;
+import citos.server.pluginlicensecheck.ClientPluginChecker;
+import citos.server.pluginlicensecheck.PluginLicenseState;
 
 import java.io.IOException;
 import java.util.ArrayList;

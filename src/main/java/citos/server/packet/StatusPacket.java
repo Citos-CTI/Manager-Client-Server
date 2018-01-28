@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server.packet;
+package citos.server.packet;
 
 public class StatusPacket extends Packet{
     private final String extension;

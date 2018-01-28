@@ -12,7 +12,7 @@ addons:
     token:
       secure: "ixbZVr7IxaD9tPPxXKINHHwHXXZDFHTHRIhnj/FiLL9G2UuRx6SVtd3Bg9OVOl8u3h1nrx5KIKjcdw19mGm18b7Fj0WSnS7yPpaOgfATJrviU8LQMRv6iGxLGRVFCHc5jj3A8MAgTu1Xb1vgjk6vpto2U8gpYQxJ3Gt1k4Y+HsjbpArZApBXGcp/xKUxgldIDYDQaKp8ncALY3/KAk2Ga9PbvNASq9y4BLmFYHfmhWyEaW/0V13JZGVCDvalgXeqixXFaAPrP79wk3u1tAshExj2sgJ8XxkXCbwGXGEY4R+0DB49urDonK6UvQ4M5HBN4AMASsx74UVyHy/qdw+WOTcNmnEKFy+0gGfP6DS0nv9ZtTjtGgYIaZq+8jKHMu3LNjYj8DPaIyChnAPjdkN5D5Mny/PBi17V8yOwmU6sK2ACO/aVGhxacPLbemEuDtYsvzADDJS5uep6vRJzNTThg2JgLlJW56a5eFTO6B/0vtyuZXYYafjzhsRLXhhWBio5knqYVreKx2t60eqYwpL+K4BB+cDjPq9TO+WCJ19hRcvJxxf+RNd7qnfSsk1YJvbv5F/Yi1cKrmE9WCr/oDx5+9OfbO6Yyb9eS7cQTAKTG/5FLeyGuHt6QN8ulJ+uuxRpXL8nSPQG+iOrARsZF41uYHuw/qJmqt89KKpLbNhK1lw="
 script:
-  - mvn clean compile package sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 cache:
   directories:
     - '$HOME/.sonar/cache'

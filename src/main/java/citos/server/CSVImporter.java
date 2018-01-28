@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server;
+package citos.server;
 
-import lsctic.communication.server.database.SqliteUserDatabase;
+import citos.server.database.SqliteUserDatabase;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.BufferedReader;

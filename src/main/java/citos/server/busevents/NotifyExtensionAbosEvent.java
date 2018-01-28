@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server.busevents;
+package citos.server.busevents;
 
 public class NotifyExtensionAbosEvent {
     private String extension;

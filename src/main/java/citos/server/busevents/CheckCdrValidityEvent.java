@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package lsctic.communication.server.busevents;
+package citos.server.busevents;
 
-import lsctic.communication.server.packet.CdrPacket;
+import citos.server.packet.CdrPacket;
 
 public class CheckCdrValidityEvent {
     private int state;
