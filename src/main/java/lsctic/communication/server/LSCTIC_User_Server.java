@@ -40,7 +40,11 @@ public class LSCTIC_User_Server
                 System.out.println("No PBX plugin in server.conf defined. Exiting....");
                 System.exit(0);
             }
-
+            //TODO add function in upcoming frontend
+            if(config.containsKey("import_folder")) {
+                CSVImporter.importCSVtoUserDatabase(config.get("import_folder"), "users.csv");
+                Logger.getLogger(getClass().getName()).info("File imported from: " + config.get("import_folder"));
+            }
             PluginInterface amiInt = null;
 
             switch (config.get("plugin")) {
@@ -67,8 +71,7 @@ public class LSCTIC_User_Server
 
             ChannelController channelController = new ChannelController(amiInt);
 
-           //TODO add csv import
-            CSVImporter.importCSVtoUserDatabase("/home/johannes", "users.csv");
+
 
 
             // Netty part for communication with clients
