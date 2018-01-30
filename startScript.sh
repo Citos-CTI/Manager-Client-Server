@@ -1,4 +1,5 @@
-ERVICE_NAME=citos
+#!/bin/sh
+SERVICE_NAME=citos
 PATH_TO_JAR=/home/johannes/Projekte/JavaTelephonyClient/jtc_server/target/LSCTIC_Communication_SERVER-1.0-SNAPSHOT.jar
 PID_PATH_NAME=/tmp/citos.pid
 case $1 in

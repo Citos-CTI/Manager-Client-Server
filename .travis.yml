@@ -13,12 +13,11 @@ cache:
     - '$HOME/.m2/repository'
 deploy:
   provider: releases
-  api_key:
-    secure: "bQZBufd9gymEAHFPnHyPRGl0APQD5eCGonFImx1mZbaXuvG/FI0miL17SUmCV4Pvck4qNbkUAZwbNCirHqAiaCPJTWEZvXmF1PS8Vh0YEaO0mCbYNDVZlAIRJim/j7ZVcD1faOnQB6N50Q2XQibuP1kL9qf4XVTKcDn9IEmAqBAk1iQxegP7XnrnWy+dUX4ixBY0gzpWAnOw6BFgQIGdPUODQIGs9WrG37sqQGJaFp7SE7L/1g9zKGK3Mw80jLxWAz6QlSRucxBoSuEuqeMbtbTMr1hfNosvp9Vug/RAjgskH04GOGs71l3844vE/h12NHHcoOctHI2sFguBnWqA1Cf/IZbUtfA5aLYwqoODOT2SwwMiq6MmpTiW6hkoQ0efvrdWGcmeEpYqGmembnr5RDKk6f+PU2kdHfXPpKmk6Dgkuc8073oRRSyHf99ToypB/LsbAXEjuLm/P1fM4ETCCUsItHcWM8x19CIDh0KxORx/k3H21TteZu7nY5666Bioh1cg9hv26P+93tfInAZo8CMbEflT/5ZrjnAyRNsVTh9fwK375WAMDn6T1qVOKd3V4XEzw0KV2Zw4O4yKY3/XidIKnxTVUg/WgL91dUqtg7pbQJeuaKWwtR0hmyGUMb+MxomwrZkAr3/DCFFsBlkvWXod8YWqpmlK1fyFRmyQTCw="
-  file: "$HOME/build/johannes5117/jtc/target/Citos-1.0.3.jar"
+  api_key: $GIT_TOKEN
+  file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.jar"
   skip_cleanup: true
   on:
     tags: true
     branches:
-      - master
+    - master
 
