@@ -48,7 +48,7 @@
                         </goals>
                         <configuration>
                             <!-- change the line below (packager path) on server it only works with ${java.home}/../bin/javapackager -->
-                            <executable>${java.home}/../bin/javapackager</executable>
+                            <executable>${java.home}/bin/javapackager</executable>
                             <arguments>
                                 <argument>-createjar</argument>
                                 <argument>-nocss2bin</argument>
