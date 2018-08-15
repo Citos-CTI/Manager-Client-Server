@@ -15,48 +15,17 @@ public class SqliteUserDatabase {
     private final static String USERS ="users";
     private static SqliteUserDatabase instance = null;
 
-
-    public SqliteUserDatabase(String database) {
+    private SqliteUserDatabase(String database) {
         this.database = database;
         String createLines = "create table users (id integer, username string, passwordhash string, salt string, extension string)";
         createDatabase(database, createLines);
     }
 
-    private void createDatabase(String database, String createLine) {
-        File f = new File(database);
-        if (f.exists() && !f.isDirectory()) {
-            try (Connection connection = DriverManager.getConnection(JDBC + database)) {
-                String query = "SELECT name FROM sqlite_master WHERE type=?";
-                try (PreparedStatement ptsm = connection.prepareStatement(query)) {
-                    ptsm.setString(1, "table");
-                    ResultSet table = ptsm.executeQuery();
-                    ArrayList<String> check = new ArrayList<>();
-                    while (table.next()) {
-                        Logger.getLogger(getClass().getName()).info(table.getString("name"));
-                        check.add(table.getString("name"));
-                    }
-                    if (!(check.contains(USERS))) {
-                        throw new SQLException("Database seems not to have the right scheme");
-                    }
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            try (Connection connection = DriverManager.getConnection(JDBC + database)) {
-                try (Statement statement = connection.createStatement()) {
-                    // Erstelle die Datenbank für das Programm
-                    statement.setQueryTimeout(30);
-                    statement.executeUpdate(createLine);
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
-            }
-
-
+    public static SqliteUserDatabase initInstance(String path) {
+        if (instance == null) {
+            instance = new SqliteUserDatabase(path + "users.db");
         }
-
+        return instance;
     }
 
     public void updateStatementForHash(String username, String passwordhash, String salt) {
@@ -118,5 +87,43 @@ public class SqliteUserDatabase {
             instance = new SqliteUserDatabase("users.db");
         }
         return instance;
+    }
+
+    private void createDatabase(String database, String createLine) {
+        File f = new File(database);
+
+        if (f.exists() && !f.isDirectory()) {
+            try (Connection connection = DriverManager.getConnection(JDBC + database)) {
+                String query = "SELECT name FROM sqlite_master WHERE type=?";
+                try (PreparedStatement ptsm = connection.prepareStatement(query)) {
+                    ptsm.setString(1, "table");
+                    ResultSet table = ptsm.executeQuery();
+                    ArrayList<String> check = new ArrayList<>();
+                    while (table.next()) {
+                        Logger.getLogger(getClass().getName()).info(table.getString("name"));
+                        check.add(table.getString("name"));
+                    }
+                    if (!(check.contains(USERS))) {
+                        throw new SQLException("Database seems not to have the right scheme");
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            try (Connection connection = DriverManager.getConnection(JDBC + database)) {
+                try (Statement statement = connection.createStatement()) {
+                    // Erstelle die Datenbank für das Programm
+                    statement.setQueryTimeout(30);
+                    statement.executeUpdate(createLine);
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
+            }
+
+
+        }
+
     }
 }

@@ -1,26 +1,23 @@
 /*
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
-package citos.server.pluginlicensecheck;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+//NOTE: Disabled Plugin License Checking -> Software will be completely Open Source
+package citos.server.pluginlicensecheck;
 
 public class ClientPluginChecker {
     private Decryptor decryptor;
-    private final HashMap<Long, ArrayList<String>> clientsDataPluginRegistered;
+    //private final HashMap<Long, ArrayList<String>> clientsDataPluginRegistered;
 
     public ClientPluginChecker() {
-        this.decryptor = new Decryptor("pub.key");
-        this.clientsDataPluginRegistered = new HashMap<>();
+        //this.decryptor = new Decryptor("pub.key");
+        //this.clientsDataPluginRegistered = new HashMap<>();
     }
 
     public PluginLicenseState checkClientPlugin(String license, String extension) {
-
+        return new PluginLicenseState(1);
+    }
+        /*
         // If the server certificate is not found there will be no correct handled plugin.
         if (!decryptor.isSetUpSuccess()) {
             return new PluginLicenseState(0);
@@ -81,4 +78,5 @@ public class ClientPluginChecker {
         return new PluginLicenseState(0);
 
     }
+    */
 }

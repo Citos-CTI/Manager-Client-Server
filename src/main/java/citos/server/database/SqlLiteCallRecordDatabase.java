@@ -20,13 +20,13 @@ public class SqlLiteCallRecordDatabase {
 
     private static final String JDBC = "jdbc:sqlite:";
     private String database;
+    private static String path = "";
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
 
     // Beispiel database: "settingsAndData.db"
     public SqlLiteCallRecordDatabase() {
-        database = "callrecords.db";
-        File f = new File("callrecords.db");
+        database = path + "callrecords.db";
+        File f = new File(path + "callrecords.db");
         if (f.exists() && !f.isDirectory()) {
             try(Connection connection = DriverManager.getConnection(JDBC + database)) {
                 String query = "SELECT name FROM sqlite_master WHERE type=?";
@@ -53,6 +53,11 @@ public class SqlLiteCallRecordDatabase {
             }
         }
     }
+
+    public static void setWorkingDir(String dir) {
+        path = dir;
+    }
+
 
 
     public ResultSet query(String query) {
@@ -117,7 +122,7 @@ public class SqlLiteCallRecordDatabase {
             ResultSet rs = ptsm.executeQuery();
             while (rs.next()) {
                 cdr.add(new CdrPacket(rs.getString(2), rs.getString(3),rs.getLong(4) , rs.getLong(5), rs.getInt(6),
-                        (rs.getInt(7) == 1 ? true : false ), rs.getInt(8), rs.getInt(9)));
+                        (rs.getInt(7) == 1), rs.getInt(8), rs.getInt(9)));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -188,7 +193,7 @@ public class SqlLiteCallRecordDatabase {
             ResultSet rs = ptsm.executeQuery();
             while (rs.next()) {
                 cdr.add(new CdrPacket(rs.getString(2), rs.getString(3),rs.getLong(4) , rs.getLong(5), rs.getInt(6),
-                        (rs.getInt(7) == 1 ? true : false ), rs.getInt(8), rs.getInt(9)));
+                        (rs.getInt(7) == 1), rs.getInt(8), rs.getInt(9)));
             }
             rs.close();
         } catch (SQLException ex) {

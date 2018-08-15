@@ -2,6 +2,9 @@
  * Copyright (c) 2018.  Johannes Engler, Citos CTI
  */
 package citos.server;
+
+import citos.server.database.SqlLiteCallRecordDatabase;
+import citos.server.database.SqliteUserDatabase;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -31,7 +34,11 @@ public class Citos_Start
         try {
 
             HashMap<String, String> config = (HashMap<String, String>) ConfigLoader.loadConfig();
-
+            if (config.containsKey("working_directory")) {
+                System.setProperty("user.dir", config.get("working_directory"));
+                SqliteUserDatabase.initInstance(config.get("working_directory"));
+                SqlLiteCallRecordDatabase.setWorkingDir(config.get("working_directory"));
+            }
             if(config.containsKey("own_server_port")) {
                 this.port = Integer.parseInt(config.get("own_server_port"));
             }
@@ -45,6 +52,7 @@ public class Citos_Start
                 CSVImporter.importCSVtoUserDatabase(config.get("import_folder"), "users.csv");
                 Logger.getLogger(getClass().getName()).info("File imported from: " + config.get("import_folder"));
             }
+
             PluginInterface amiInt = null;
 
             switch (config.get("plugin")) {
