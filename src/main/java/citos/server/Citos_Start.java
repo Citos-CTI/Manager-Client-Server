@@ -72,6 +72,9 @@ public class Citos_Start
                 case "dummy":
                     amiInt = new PluginDummy();
                     break;
+                case "dummyheadless":
+                    amiInt = new PluginDummyHeadless();
+                    break;
                 default:
                     System.out.println("The plugin you specified is not installed. Please look for typos or install the plugin. For further information see the documentation. Exiting...");
                     System.exit(0);
