@@ -3,15 +3,15 @@
  */
 package citos.server;
 
-import citos.server.packet.CdrPacket;
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
-import io.netty.channel.Channel;
 import citos.server.busevents.NotifyExtensionAbosEvent;
 import citos.server.busevents.NotifyNewCdrEvent;
 import citos.server.database.SqlLiteCallRecordDatabase;
+import citos.server.packet.CdrPacket;
 import citos.server.pluginlicensecheck.ClientPluginChecker;
 import citos.server.pluginlicensecheck.PluginLicenseState;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import io.netty.channel.Channel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class ChannelController {
     private final ClientPluginChecker clientPluginChecker;
 
 
-    public ChannelController(PluginInterface loadedPlugin) {
+    protected ChannelController(PluginInterface loadedPlugin) {
         this.eventBus = new EventBus();
         eventBus.register(this);
         try {
@@ -177,9 +177,8 @@ public class ChannelController {
                     + (cdr.isInternalCall() ? 1 : 0) + ";" + cdr.getCountryCode()
                     + ";" + cdr.getPrefix() + "\r\n");
         }
-        if(cdrs.size()==0 && val.length>2) {
+        if (cdrs.size() == 0) {
             chan.writeAndFlush("012"+val[2]+"\r\n");
-            Logger.getLogger(getClass().getName()).info("VERSEUCHE:  "+ val[0]);
         }
     }
 

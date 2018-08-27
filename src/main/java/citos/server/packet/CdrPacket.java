@@ -8,7 +8,6 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.Objects;
-import java.util.logging.Logger;
 
 /**
  *
@@ -44,14 +43,12 @@ public class CdrPacket extends Packet{
         this.internalCall = internalCall;
         this.prefix = prefix;
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-        Logger.getLogger(getClass().getName()).info("TEST");
         if(outgoing) {
             try {
                 // TODO: Let admin set default region
                 Phonenumber.PhoneNumber phoneNumber = phoneUtil.parse(destination, "DE");
                 this.countryCode = phoneUtil.getCountryCodeForRegion(phoneUtil.getRegionCodeForNumber(phoneNumber));
-                String number = phoneNumber.getNationalNumber()+"";
-                this.destination = number;
+                this.destination = phoneNumber.getNationalNumber() + "";
 
             } catch (NumberParseException e) {
                 e.printStackTrace();
@@ -61,8 +58,7 @@ public class CdrPacket extends Packet{
                 // TODO: Let admin set default region
                 Phonenumber.PhoneNumber phoneNumber = phoneUtil.parse(source, "DE");
                 this.countryCode = phoneUtil.getCountryCodeForRegion(phoneUtil.getRegionCodeForNumber(phoneNumber));
-                String number = phoneNumber.getNationalNumber()+"";
-                this.source = number;
+                this.source = phoneNumber.getNationalNumber() + "";
 
             } catch (NumberParseException e) {
                 e.printStackTrace();

@@ -100,7 +100,6 @@ public class SqliteUserDatabase {
                     ResultSet table = ptsm.executeQuery();
                     ArrayList<String> check = new ArrayList<>();
                     while (table.next()) {
-                        Logger.getLogger(getClass().getName()).info(table.getString("name"));
                         check.add(table.getString("name"));
                     }
                     if (!(check.contains(USERS))) {
