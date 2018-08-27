@@ -13,8 +13,9 @@ cache:
     - '$HOME/.m2/repository'
 deploy:
   provider: releases
-  api_key: $GIT_TOKEN
-  file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.1.jar"
+  api_key:
+      secure: $GIT_SECURE
+  file: "/home/travis/build/Citos-CTI/Manager-Server/target/Citos-Server-1.0.1.jar"
   skip_cleanup: true
   on:
     tags: true
