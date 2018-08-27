@@ -45,4 +45,31 @@ Right now there are 3 server plugins available:
 - Dummy
 - DummyHeadless (Version of Dummy which doesn't open a gui)
 #### Asterisk
+- Start with enabling the remote connection from Citos Manager Server to your Asterisk Server
+- In /etc/asterisk/manager.conf you have to add an entry like this:
+```
+[citos]
+secret=citos-pw
+permit=0.0.0.0/0.0.0.0
+read=all
+write=all
+```
+
+Caution! Please restrict the access only on the features you need and only to the host with Citos Manager Server running.
+
+- Your server.conf (in /etc/citos-server or in the application your .jar lies) should look like this:
+```
+plugin=asterisk
+own_server_port=12345         // Port you want for Citos Manager Server
+username=citos 
+password=citos-pw
+server_address=192.168.178.12 // IP or Hostname of your Asterisk Server
+port=5038                     // Port of your Asterisk Server
+```
 #### Dummy(Headless)
+For running a test with a dummy plugin use this config:
+```
+plugin=dummyheadless
+own_server_port=12345
+import_folder=/home/johannes
+```
