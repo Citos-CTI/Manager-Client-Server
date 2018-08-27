@@ -14,7 +14,7 @@ cache:
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
-  file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.jar"
+  file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.1.jar"
   skip_cleanup: true
   on:
     tags: true
