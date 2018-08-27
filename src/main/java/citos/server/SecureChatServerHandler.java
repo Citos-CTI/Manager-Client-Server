@@ -20,13 +20,13 @@ import java.util.logging.Logger;
 
 public class SecureChatServerHandler extends SimpleChannelInboundHandler<String> {
 
-    static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private final static String HASH_CONST = "Select passwordhash from users where username='";
     private final ChannelController channelController;
     private boolean loggedIn;
     private String extension = "";
 
-    public SecureChatServerHandler(ChannelController channelController) {
+    protected SecureChatServerHandler(ChannelController channelController) {
         this.channelController = channelController;
         this.loggedIn = false;
     }
@@ -37,7 +37,7 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
         ctx.pipeline().get(SslHandler.class).handshakeFuture().addListener(
                 new GenericFutureListener<Future<Channel>>() {
                     @Override
-                    public void operationComplete(Future<Channel> future) throws Exception {
+                    public void operationComplete(Future<Channel> future) {
                         //Todo: Maybe Add initial data exchange here
                      /*  ctx.writeAndFlush(
                                 "Welcome to " + InetAddress.getLocalHost().getHostName() + " secure chat service!\n");
@@ -53,23 +53,20 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, String msg) {
         //This will wait until a line of text has been sent
         Channel ch = ctx.channel();
         if (loggedIn) {
-            String chatInput = msg;
-            Logger.getLogger(getClass().getName()).info(chatInput);
             if ("loff".equals(msg)) {
                 loggedIn = false;
                 ctx.channel().flush();
                 ctx.channel().close();
                 channels.remove(ctx);
-                return;
             } else if (msg.startsWith("chpw")) {
                 changePw(msg, ch);
             } else if (msg.length() > 2) {
-                int op = Integer.parseInt(chatInput.substring(0, 3));
-                String param = chatInput.substring(3, chatInput.length());
+                int op = Integer.parseInt(msg.substring(0, 3));
+                String param = msg.substring(3, msg.length());
                 switch (op) {
                     case 0:
                         channelController.subscribeStatusForExtension(param, ch);
@@ -118,7 +115,6 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
     }
 
     private boolean isLoginSuccessForUser(String param, Channel channel) {
-        Logger.getLogger(getClass().getName()).info(param);
         SqliteUserDatabase sqliteUserDatabase = SqliteUserDatabase.getInstance();
         String[] split = param.split(";");
         if (split[0].startsWith("ndb")) {
@@ -133,6 +129,7 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
                         channel.writeAndFlush("lsuc" + hashed + "\r\n");
                         this.extension = extension;
                         channel.writeAndFlush("owne" + extension + "\r\n");
+                        Logger.getLogger(getClass().getName()).log(Level.SEVERE, "User Login successful!");
                         return true;
                     }
                 }
