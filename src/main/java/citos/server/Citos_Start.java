@@ -49,8 +49,8 @@ public class Citos_Start
             }
             //TODO add function in upcoming frontend
             if(config.containsKey("import_folder")) {
-                CSVImporter.importCSVtoUserDatabase(config.get("import_folder"), "users.csv");
-                Logger.getLogger(getClass().getName()).info("File imported from: " + config.get("import_folder"));
+                int imported = CSVImporter.importCSVtoUserDatabase(config.get("import_folder"), "users.csv");
+                Logger.getLogger(getClass().getName()).info("File imported from: " + config.get("import_folder") + " imported " + imported + " users");
             }
 
             PluginInterface amiInt = null;
@@ -82,7 +82,9 @@ public class Citos_Start
 
             ChannelController channelController = new ChannelController(amiInt);
 
-
+            // To generate some random CDR packets
+            // PluginDummyHeadless pl = (PluginDummyHeadless) amiInt;
+            // pl.generateRandomCdrPacket(100, "200");
 
 
             // Netty part for communication with clients

@@ -35,7 +35,6 @@ public class PluginDummyHeadless implements PluginInterface {
         internStatus.put("202", 0);
         internStatus.put("203", 0);
         internStatus.put("204", 0);
-
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -59,12 +58,8 @@ public class PluginDummyHeadless implements PluginInterface {
             int action = actArr[pot];
             internStatus.put(keyList.get(i), action);
             eventBus.post(new NotifyExtensionAbosEvent(keyList.get(i), action));
-        } else if (act < 25) {
-            Random r = new Random();
-            List<String> keyList = new ArrayList<>(internStatus.keySet());
-            int i = r.nextInt(internStatus.size());
-            CdrPacket cdrPa = new CdrPacket(keyList.get(i), "01723123451", System.currentTimeMillis(), 5, 4, true, 0, -1);
-            eventBus.post(new NotifyNewCdrEvent(cdrPa));
+       // } else if (act < 21) {
+         //  generateRandomCdrPacket(1, "200");
         }
 
     }
@@ -80,5 +75,48 @@ public class PluginDummyHeadless implements PluginInterface {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Verbindung initialisiert zwischen: {0} und: {1}", new Object[]{extension, number});
     }
 
+    public void generateRandomCdrPacket(int anzahl, String extension) {
+        Random r = new Random();
+        for(int i = 0; i <= anzahl; ++i) {
+            long time_ago = r.nextInt(10080000);
+            int duration = r.nextInt(200);
+            boolean internalCall = r.nextBoolean();
+            String number;
+            int countryCode;
+            if (internalCall) {
+                List<String> keyList = new ArrayList<>(internStatus.keySet());
+                int ipos = r.nextInt(internStatus.size());
+                number = keyList.get(ipos);
+                countryCode = -1;
+            } else {
+                number = generateRandomPhoneNumber();
+                countryCode = 49;
+            }
+            generateAndPublishCdrPacketRandomOrder(extension, number, System.currentTimeMillis()-time_ago, duration, 4, internalCall, 0, countryCode);
+        }
+
+    }
+
+    private void generateAndPublishCdrPacketRandomOrder(String source, String destination, long startTime, long duration, int disposition, boolean internalCall, int prefix, int countryCode) {
+        Random r = new Random();
+        boolean sort = r.nextBoolean();
+        CdrPacket cdrPa;
+        if (sort) {
+            cdrPa = new CdrPacket(source, destination, startTime, duration, disposition, internalCall, prefix, countryCode);
+        } else {
+            cdrPa = new CdrPacket(destination, source, startTime, duration, disposition, internalCall, prefix, countryCode);
+        }
+        eventBus.post(new NotifyNewCdrEvent(cdrPa));
+    }
+
+    private String generateRandomPhoneNumber(){
+        String phonenumber = "017";
+        Random r = new Random();
+        for(int i = 0; i<=8; ++i) {
+            int ext = r.nextInt(10);
+            phonenumber = phonenumber + ext;
+        }
+        return phonenumber;
+    }
 
 }

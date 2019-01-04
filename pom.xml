@@ -41,7 +41,6 @@
                 <executions>
                     <execution>
                         <id>unpack-dependencies</id>
-
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
@@ -64,6 +63,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <mainClass>citos.server.Citos_Start</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

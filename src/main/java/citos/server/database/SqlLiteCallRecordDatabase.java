@@ -110,7 +110,7 @@ public class SqlLiteCallRecordDatabase {
     }
 
     public List<CdrPacket> getLastNCallsStartingFrom(String extension, int start, int count) {
-        String prepareString = "Select * from (Select * from records where source=? or destination=? order by id desc LIMIT ?,?) order by starttime asc";
+        String prepareString = "Select * from (Select * from records where source=? or destination=? order by starttime desc) LIMIT ?,?";
         List<CdrPacket> cdr = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(JDBC + database); PreparedStatement ptsm = con.prepareStatement(prepareString)) {
             ptsm.setString(1,extension);
@@ -174,8 +174,9 @@ public class SqlLiteCallRecordDatabase {
         }
     }
 
-    public List<CdrPacket> getSearchedCdr(String extension, String search, int amount, boolean strict){
-        String prepareString = "Select * from records where (source like ? and destination like ?) or (destination LIKE ? And source like ?) ORDER BY starttime asc LIMIT ?";
+    public List<CdrPacket> getSearchedCdr(String extension, String search, int amount, boolean strict, int start){
+        String prepareString = "Select * from (select * from records where (source like ? and destination like ?) or (destination LIKE ? And source like ?) ORDER BY starttime desc) LIMIT ?,?";
+        Logger.getLogger(getClass().getName()).info(""+ start);
         List<CdrPacket> cdr = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(JDBC + database); PreparedStatement ptsm = con.prepareStatement(prepareString)) {
             // strict -> sometimes its not good to search with % -> this is the case if we know the exact number
@@ -188,7 +189,8 @@ public class SqlLiteCallRecordDatabase {
             }
             ptsm.setString(2, extension);
             ptsm.setString(4, extension);
-            ptsm.setInt(5,amount);
+            ptsm.setInt(5, start);
+            ptsm.setInt(6,amount);
             ptsm.setQueryTimeout(10);
             ResultSet rs = ptsm.executeQuery();
             while (rs.next()) {
@@ -201,8 +203,31 @@ public class SqlLiteCallRecordDatabase {
             return cdr;
         }
         return cdr;
-
-
+    }
+    public int countSearch(String extension, String search, boolean strict) {
+        int found = 0;
+        String prepareString = "Select count(id) from records where (source like ? and destination like ?) or (destination LIKE ? And source like ?)";
+        try (Connection con = DriverManager.getConnection(JDBC + database); PreparedStatement ptsm = con.prepareStatement(prepareString)) {
+            if(strict) {
+                ptsm.setString(1,  search);
+                ptsm.setString(3, search);
+            } else {
+                ptsm.setString(1,"%" + search + "%");
+                ptsm.setString(3, "%" + search+ "%");
+            }
+            ptsm.setString(2, extension);
+            ptsm.setString(4, extension);
+            ResultSet rs = ptsm.executeQuery();
+            while (rs.next()) {
+                found = rs.getInt(1);
+            }
+            Logger.getLogger(getClass().getName()).info(""+search);
+            rs.close();
+            return found;
+        } catch (SQLException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            return found;
+        }
     }
 
 }

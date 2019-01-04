@@ -15,12 +15,23 @@ public class CSVImporter {
     private CSVImporter() {
     }
 
-    public static  void importCSVtoUserDatabase(String path, String filename) {
-        SqliteUserDatabase sqliteUserDatabase = SqliteUserDatabase.getInstance();
+    public static String getSuitablePathSeperator(String path) {
+        if(path.contains("\\")) {
+            return "\\";
+        } else if(path.contains("/")) {
+            return "/";
+        } else {
+            return "";
+        }
+    }
 
+    public static int importCSVtoUserDatabase(String path, String filename) {
+        SqliteUserDatabase sqliteUserDatabase = SqliteUserDatabase.getInstance();
+        int imported = 0;
         String line = "";
         String cvsSplitBy = ",";
-        try(BufferedReader br = new BufferedReader(new FileReader(path+"/"+filename))){
+        Logger.getLogger(CSVImporter.class.getName()).info(path+CSVImporter.getSuitablePathSeperator(path)+filename);
+        try(BufferedReader br = new BufferedReader(new FileReader(path+CSVImporter.getSuitablePathSeperator(path)+filename))){
             while ((line = br.readLine()) != null) {
                 // use comma as separator
                 String[] user = line.split(cvsSplitBy);
@@ -28,16 +39,15 @@ public class CSVImporter {
                     String salt = BCrypt.gensalt();
                     String hashed = BCrypt.hashpw(user[1], salt);
                     sqliteUserDatabase.insertUserInDatabase(user[0],hashed,salt,user[2]);
+                    imported ++;
                 }
             }
         } catch (IOException e) {
             Logger.getLogger(CSVImporter.class.getName()).info("Error reading the file");
+            Logger.getLogger(CSVImporter.class.getName()).info(e.getMessage());
         }
 
-
-
-
-
+        return imported;
     }
 
 

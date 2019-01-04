@@ -170,22 +170,29 @@ public class ChannelController {
 
     public void getSearchedCdr(String extension, String param, Channel chan) {
         String[] val = param.split(";");
-        List<CdrPacket> cdrs = sqlDb.getSearchedCdr(extension, val[0], Integer.valueOf(val[1]), Boolean.valueOf(val[3]));
+        List<CdrPacket> cdrs = sqlDb.getSearchedCdr(extension, val[0], Integer.valueOf(val[1]), Boolean.valueOf(val[4]), Integer.valueOf(val[2]));
         for (CdrPacket cdr : cdrs) {
             chan.writeAndFlush("010" + cdr.getSource() + ";" + cdr.getDestination() + ";" + cdr.getStartTime() + ";"
-                    + cdr.getDuration() + ";" + cdr.getDisposition() +";true;"+val[0]+";"+val[2]+";"
+                    + cdr.getDuration() + ";" + cdr.getDisposition() +";true;"+val[0]+";"+val[3]+";"
                     + (cdr.isInternalCall() ? 1 : 0) + ";" + cdr.getCountryCode()
                     + ";" + cdr.getPrefix() + "\r\n");
         }
-        if(cdrs.size()==0 && val.length>2) {
-            chan.writeAndFlush("012"+val[2]+"\r\n");
+        if(cdrs.size()==0) {
+            chan.writeAndFlush("012"+val[3]+"\r\n");
             Logger.getLogger(getClass().getName()).info("VERSEUCHE:  "+ val[0]);
+        } else {
+            isMoreCdrAvailableSearch(extension, val[0], Boolean.valueOf(val[4]), chan);
         }
     }
 
     // For synchronizing the users call record view with the actual data of the server this is required whenever a user interacts with cdr (or server with user)
     public void isMoreCdrAvailable(String extension, Channel ch){
         int available = sqlDb.count(extension);
+        ch.writeAndFlush("011"+String.valueOf(available)+"\r\n");
+    }
+
+    public void isMoreCdrAvailableSearch(String extension, String search, boolean strictSearch, Channel ch){
+        int available = sqlDb.countSearch(extension, search, strictSearch);
         ch.writeAndFlush("011"+String.valueOf(available)+"\r\n");
     }
 
