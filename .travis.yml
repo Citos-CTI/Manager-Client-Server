@@ -3,7 +3,7 @@ sudo: false
 dist: trusty
 install: true
 jdk:
-- oraclejdk9
+- oraclejdk8
 addons:
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=cicti -Dsonar.login=$SONAR_TOKEN
