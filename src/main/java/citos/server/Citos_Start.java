@@ -14,10 +14,15 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
+import javafx.fxml.FXMLLoader;
+import org.apache.log4j.BasicConfigurator;
 
 import javax.net.ssl.SSLException;
+import java.io.File;
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +35,7 @@ public class Citos_Start
     }
     public Citos_Start()
     {
-
+        BasicConfigurator.configure();
         try {
 
             HashMap<String, String> config = (HashMap<String, String>) ConfigLoader.loadConfig();
@@ -38,6 +43,10 @@ public class Citos_Start
                 System.setProperty("user.dir", config.get("working_directory"));
                 SqliteUserDatabase.initInstance(config.get("working_directory"));
                 SqlLiteCallRecordDatabase.setWorkingDir(config.get("working_directory"));
+            } else {
+                String default_data_directory = getDefaultDataDirectory();
+                SqliteUserDatabase.initInstance(default_data_directory);
+                SqlLiteCallRecordDatabase.setWorkingDir(default_data_directory);
             }
             if(config.containsKey("own_server_port")) {
                 this.port = Integer.parseInt(config.get("own_server_port"));
@@ -112,5 +121,21 @@ public class Citos_Start
             Logger.getLogger(Citos_Start.class.getName()).log(Level.SEVERE, null, ex);
         }
           
+    }
+
+    public static String getDefaultDataDirectory() {
+        String path = System.getProperty("user.home") + File.separator + ".citos-server" + File.separator + getApplicationVersionString() + File.separator;
+        new File(path).mkdirs();
+        return path;
+    }
+
+    public static String getApplicationVersionString() {
+        final Properties properties = new Properties();
+        try {
+            properties.load(FXMLLoader.getDefaultClassLoader().getResourceAsStream("project.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties.getProperty("version");
     }
 }

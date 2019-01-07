@@ -17,7 +17,7 @@ public class SqliteUserDatabase {
 
     private SqliteUserDatabase(String database) {
         this.database = database;
-        String createLines = "create table users (id integer, username string, passwordhash string, salt string, extension string)";
+        String createLines = "create table users (id integer PRIMARY KEY, username string, passwordhash string, salt string, extension string)";
         createDatabase(database, createLines);
     }
 
@@ -43,8 +43,8 @@ public class SqliteUserDatabase {
         if (!isUserAlreadyInDatabase(username)) {
             try (Connection con = DriverManager.getConnection(JDBC + database); Statement statement = con.createStatement()) {
                 statement.setQueryTimeout(10);
-                final String query = "INSERT INTO users (id, username , passwordhash, salt, extension) " +
-                        "Values (((Select max(id) from users)+1),'" + username + "','" + passwordhash + "' , '" + salt + "', '" + extension + "' )";
+                final String query = "INSERT INTO users (username , passwordhash, salt, extension) " +
+                        "Values ('" + username + "','" + passwordhash + "' , '" + salt + "', '" + extension + "' )";
                 statement.execute(query);
                 statement.closeOnCompletion();
             } catch (SQLException ex) {
