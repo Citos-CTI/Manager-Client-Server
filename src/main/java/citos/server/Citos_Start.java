@@ -14,7 +14,6 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
-import javafx.fxml.FXMLLoader;
 import org.apache.log4j.BasicConfigurator;
 
 import javax.net.ssl.SSLException;
@@ -92,8 +91,8 @@ public class Citos_Start
             ChannelController channelController = new ChannelController(amiInt);
 
             // To generate some random CDR packets
-            // PluginDummyHeadless pl = (PluginDummyHeadless) amiInt;
-            // pl.generateRandomCdrPacket(100, "200");
+            PluginDummyHeadless pl = (PluginDummyHeadless) amiInt;
+            pl.generateRandomCdrPacket(100, "200");
 
 
             // Netty part for communication with clients
@@ -132,7 +131,7 @@ public class Citos_Start
     public static String getApplicationVersionString() {
         final Properties properties = new Properties();
         try {
-            properties.load(FXMLLoader.getDefaultClassLoader().getResourceAsStream("project.properties"));
+            properties.load(Citos_Start.class.getClassLoader().getResourceAsStream("project.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

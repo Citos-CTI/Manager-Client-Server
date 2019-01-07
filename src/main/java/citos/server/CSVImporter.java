@@ -18,7 +18,7 @@ public class CSVImporter {
     public static String getSuitablePathSeperator(String path) {
         if(path.contains("\\")) {
             return "\\";
-        } else if(path.contains("/")) {
+        } else if(path.contains("/") || path.equals(".")) {
             return "/";
         } else {
             return "";
