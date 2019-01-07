@@ -20,4 +20,3 @@ deploy:
       tags: true
       branches:
       - master
-
