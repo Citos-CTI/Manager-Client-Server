@@ -18,10 +18,9 @@ deploy:
   api_key: $GIT_TOKEN
   file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.jar"
   skip_cleanup: true
-  on:
-    tags: true
-    branches:
-    - master
+    on:
+      branches:
+      - master
 after_success:
 - docker login -u $DOCKER_USER -p $DOCKER_PASS
 - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
