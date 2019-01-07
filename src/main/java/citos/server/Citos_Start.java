@@ -90,7 +90,7 @@ public class Citos_Start
 
             ChannelController channelController = new ChannelController(amiInt);
 
-            // To generate some random CDR packets
+            // To generate some random CDR packets only relevant in docker demo
             PluginDummyHeadless pl = (PluginDummyHeadless) amiInt;
             pl.generateRandomCdrPacket(100, "200");
 
