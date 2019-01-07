@@ -1,7 +1,5 @@
 language: java
-sudo: required
-services:
-- docker
+sudo: false
 dist: trusty
 install: true
 jdk:
@@ -22,10 +20,4 @@ deploy:
       tags: true
       branches:
       - master
-after_success:
-- docker login -u $DOCKER_USER -p $DOCKER_PASS
-- export TAG='if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi'
-- export IMAGE_NAME=johannes5117/citos-server
-- docker build -t $IMAGE_NAME:$COMMIT .
-- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
-- docker push $IMAGE_NAME
+
