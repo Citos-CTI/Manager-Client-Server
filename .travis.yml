@@ -1,5 +1,7 @@
 language: java
-sudo: false
+sudo: required
+services:
+- docker
 dist: trusty
 install: true
 jdk:
@@ -14,9 +16,16 @@ cache:
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
-  file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.jar"
+  file: "/home/travis/build/Citos-CTI/Manager-Server/target/Citos-Server-1.0.jar"
   skip_cleanup: true
   on:
     tags: true
     branches:
     - master
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+- export IMAGE_NAME=johannes5117/citos-server
+- docker build -t $IMAGE_NAME:$COMMIT .
+- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME
