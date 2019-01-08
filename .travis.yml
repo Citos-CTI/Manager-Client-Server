@@ -16,7 +16,7 @@ deploy:
   api_key: $GIT_TOKEN
   file: "/home/travis/build/Citos-CTI/Server/target/Citos-Server-1.0.jar"
   skip_cleanup: true
-    on:
-      tags: true
-      branches:
-      - master
+  on:
+    tags: true
+    branches:
+    - master
