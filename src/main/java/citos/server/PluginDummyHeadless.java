@@ -31,10 +31,13 @@ public class PluginDummyHeadless implements PluginInterface {
         this.eventBus = eventBus;
         // else use local variable to write back error
         internStatus = new HashMap<>();
-        internStatus.put("201", 0);
-        internStatus.put("202", 0);
-        internStatus.put("203", 0);
-        internStatus.put("204", 0);
+        for(int i = 1; i<20; i++) {
+            if (i < 10) {
+                internStatus.put("20"+i,0);
+            } else {
+                internStatus.put("2"+i, 0);
+            }
+        }
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
