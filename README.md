@@ -15,12 +15,12 @@ Download here:
 - Unzip the files
 - You can either install the Citos Manager Server or try it as a Docker Container.
 #### Trial
-The trial docker container is shipped with everything predefined. Currently the trial version only works with a dummy telephony system. A Asterisk trial will be delivered as soon as possible. Depening on your configuration you may have to run the docker commands elevated (with sudo).
+The trial docker container is shipped with everything predefined. Currently the trial version only works with a dummy telephony system. A Asterisk trial will be delivered as soon as possible. Depending on your configuration you may have to run the docker commands elevated (with sudo).
 ```
 docker pull citos/manager-server-test:latest
 docker run -d -p 12345:12345 citos/manager-server-test
 ```
-Now a server is online on which you can register a one client with the login:
+A server is online on which you can register one client with the login:
 ```
 user: vogel
 password: vogel
