@@ -7,33 +7,25 @@ This is the backend which connects to the specific telephony servers. The Manage
 It's not required to run the Citos CTI Manager Server directly on the telephony server. It's highly recommended to adjust your firewall and network settings (espc. between Citos and telephony server) to prevent possible attacks.
 ### Requirements:
 - Asterisk Server (tested with versions 12-15)
-- Java 9 Runtime
+- Java 8 or higher Runtime
 ### Download
 Download here:
 [Citos Manager Server Download](https://github.com/Citos-CTI/Manager-Server/releases/download/v1.0.3.3/Citos_Server.zip)
 ### Trial/Installation
 - Unzip the files
-- You can either install the Citos Manager Server or try it.
+- You can either install the Citos Manager Server or try it as a Docker Container.
 #### Trial
-Before trying you must setup an user and add a config file. In the zip is already an example server.conf.example
-For running a test with a dummy plugin use this config:
+The trial docker container is shipped with everything predefined. Currently the trial version only works with a dummy telephony system. A Asterisk trial will be delivered as soon as possible. Depening on your configuration you may have to run the docker commands elevated (with sudo).
 ```
-plugin=dummyheadless
-own_server_port=12345
-import_folder=/home/johannes
+docker pull citos/manager-server-test:latest
+docker run -d -p 12345:12345 citos/manager-server-test
 ```
-To set up an user place a user.csv at the position where the parameter import_folder points.
-
-The .csv should look like this:
+Now a server is online on which you can register a one client with the login:
 ```
-user1,password1,extension1
-user2,password2,extension2
-
+user: vogel
+password: vogel
 ```
-- Run the Server with:
-```
-java -jar citos-server.jar
-```
+You can now add user extensions in the client. The preregistered extensions are in the range from 201 - 220.
 #### Installation
 - Execute install.sh
 - Go to /etc/citos-server and edit the server.conf config file as explained in the config file section
